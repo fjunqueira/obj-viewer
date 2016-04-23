@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://github.com/lvandeve/lodepng/archive/master.zip'
+tag=''

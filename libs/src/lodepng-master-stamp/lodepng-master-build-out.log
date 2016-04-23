@@ -1,0 +1,5 @@
+Scanning dependencies of target lodepng
+[ 33%] Building CXX object CMakeFiles/lodepng.dir/lodepng.cpp.o
+[ 66%] Building CXX object CMakeFiles/lodepng.dir/lodepng_util.cpp.o
+[100%] Linking CXX static library /home/fabio/workspace/obj-viewer/libs/lodepng/lib/liblodepng.a
+[100%] Built target lodepng
