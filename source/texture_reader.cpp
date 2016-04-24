@@ -9,9 +9,9 @@ std::map<std::string, GLuint>* TextureReader::ReadTextures(const std::string& me
 {
     std::map<std::string, GLuint>* textures = new std::map<std::string, GLuint>();
 
-    GLuint* texture_ids = new GLuint[files.size()];
+    GLuint* texture_ids = new GLuint[files.size()]();
 
-    glGenTextures(files.size(), texture_ids);
+    glGenTextures((GLsizei) files.size(), texture_ids);
 
     std::for_each(files.begin(), files.end(), [&](const std::string& file)
     {

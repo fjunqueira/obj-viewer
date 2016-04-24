@@ -32,9 +32,9 @@ void Mesh::Draw(const std::map<std::string, Material>& materials, const std::map
                           {
                               bool has_material = materials.count(face.material()) == 1;
 
-                              if (textures.count(face.material()) == 1)
+                              if (textures.count(materials.at(face.material()).texture_file()) == 1)
                               {
-                                  GLuint texid = textures.at(face.material());
+                                  GLuint texid = textures.at(materials.at(face.material()).texture_file());
                                   glBindTexture(GL_TEXTURE_2D, texid);
                               }
 

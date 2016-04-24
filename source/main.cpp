@@ -23,18 +23,13 @@ void Render()
     //setar info da luz
     glLightfv(GL_LIGHT0, GL_POSITION, g_lightPos);
 
+    math::Vector3<float> camera_position(34.0304203, 0, 4.87120724);
+
     glLoadIdentity();
-
-    math::Vector3<float> camera_position;
-
-    float rotation_arround_y_axis = 0;
-    camera_position = (math::Vector3<float>(cos(rotation_arround_y_axis), 0.0f,
-                                                     sin(rotation_arround_y_axis))).normalized() *
-            mesh_info.mesh->bounding_sphere_radius() ;
 
     gluLookAt(camera_position.x(), camera_position.y(), camera_position.z(), 0, 0, 0, 0.0, 1.0, 0.0);
 
-    //mesh.Draw(materials, textures);
+    mesh_info.mesh->Draw(*mesh_info.materials, *mesh_info.textures);
 
     glutSwapBuffers();
     glutPostRedisplay();
@@ -42,7 +37,7 @@ void Render()
 
 void ResetView()
 {
-    float diam = 0;
+    float diam = mesh_info.mesh->bounding_sphere_radius();
 
     glViewport(0, 0, width, height);
 
@@ -78,8 +73,6 @@ void InitializeOpenGL()
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClearDepth(1.0);
-
-    ResetView();
 }
 
 int main(int argc, char** argv)
@@ -90,24 +83,26 @@ int main(int argc, char** argv)
     std::string mesh_path(argv[1]);
     std::string mesh_name(argv[2]);
 
+    glutInit(&argc, argv);
+    glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(width, height);
+
+    glutCreateWindow("obj-viewer");
+
+    InitializeOpenGL();
+
     MeshLoader mesh_loader;
     mesh_info = mesh_loader.LoadMesh(mesh_path, mesh_name);
 
-//    glutInit(&argc, argv);
-//    glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
-//    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-//    glutInitWindowSize(width, height);
-//
-//    glutCreateWindow("obj-viewer");
-//
-//    InitializeOpenGL();
-//
-//    glutDisplayFunc(Render);
-//    glutReshapeFunc(ResizeHandler);
-//    //glutKeyboardFunc(KeypressHandler);
-//    //glutSpecialFunc(SpecialKeyHandler);
-//
-//    glutMainLoop();
+    ResetView();
+
+    glutDisplayFunc(Render);
+    glutReshapeFunc(ResizeHandler);
+    //glutKeyboardFunc(KeypressHandler);
+    //glutSpecialFunc(SpecialKeyHandler);
+
+    glutMainLoop();
 
     delete mesh_info.mesh;
     delete mesh_info.materials;

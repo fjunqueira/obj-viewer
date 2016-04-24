@@ -47,13 +47,14 @@ set(SOURCE_FILES
         source/group.h
         source/face.cpp
         source/face.h
-        source/texture_mapping.cpp
-        source/texture_mapping.h
         source/vector3.cpp
         source/vector3.h
         source/mtl_reader.cpp
         source/mtl_reader.h
-        source/texture_reader.cpp source/texture_reader.h source/mesh_loader.cpp source/mesh_loader.h)
+        source/texture_reader.cpp
+        source/texture_reader.h
+        source/mesh_loader.cpp
+        source/mesh_loader.h)
 
 add_executable(obj-viewer ${SOURCE_FILES})
 
