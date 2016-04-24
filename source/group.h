@@ -16,6 +16,8 @@ public:
 
     Group(const std::string& name, const std::vector<Face>& faces);
 
+    const std::string& name() const;
+
     const std::vector<Face>& faces() const;
 
     void add_face(const Face& face);

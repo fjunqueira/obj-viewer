@@ -54,7 +54,7 @@ set(SOURCE_FILES
         source/texture_reader.cpp
         source/texture_reader.h
         source/mesh_loader.cpp
-        source/mesh_loader.h)
+        source/mesh_loader.h source/mesh_drawer.cpp source/mesh_drawer.h)
 
 add_executable(obj-viewer ${SOURCE_FILES})
 

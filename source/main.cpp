@@ -3,6 +3,7 @@
 #include "mtl_reader.h"
 #include "texture_reader.h"
 #include "mesh_loader.h"
+#include "mesh_drawer.h"
 #include <GL/freeglut.h>
 
 using namespace std;
@@ -10,6 +11,10 @@ using namespace std;
 int width = 800, height = 600;
 
 MeshInfo mesh_info;
+
+math::Vector3<float> camera_position;
+float rotation_around_y_axis = 0;
+float zoom = 2;
 
 void Render()
 {
@@ -23,13 +28,11 @@ void Render()
     //setar info da luz
     glLightfv(GL_LIGHT0, GL_POSITION, g_lightPos);
 
-    math::Vector3<float> camera_position(34.0304203, 0, 4.87120724);
-
     glLoadIdentity();
 
     gluLookAt(camera_position.x(), camera_position.y(), camera_position.z(), 0, 0, 0, 0.0, 1.0, 0.0);
 
-    mesh_info.mesh->Draw(*mesh_info.materials, *mesh_info.textures);
+    MeshDrawer::Draw(mesh_info.mesh, mesh_info.materials, mesh_info.textures);
 
     glutSwapBuffers();
     glutPostRedisplay();
@@ -37,14 +40,14 @@ void Render()
 
 void ResetView()
 {
-    float diam = mesh_info.mesh->bounding_sphere_radius();
+    float diameter = mesh_info.mesh->bounding_sphere_radius();
 
     glViewport(0, 0, width, height);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(60.0, (double) width / (double) height, 1.0, (1.0 + diam) * 3);
+    gluPerspective(60.0, (double) width / (double) height, 1.0, (1.0 + diameter) * 3);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -75,6 +78,33 @@ void InitializeOpenGL()
     glClearDepth(1.0);
 }
 
+void KeypressHandler(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+        case 'q':
+        case 'Q':
+            exit(0);
+    }
+}
+
+void SpecialKeyHandler(int key, int x, int y)
+{
+    switch (key)
+    {
+        case GLUT_KEY_LEFT:
+            rotation_around_y_axis -= 0.1;
+            break;
+        case GLUT_KEY_RIGHT:
+            rotation_around_y_axis += 0.1;
+            break;
+    }
+
+    camera_position =
+            math::Vector3<float>(cos(rotation_around_y_axis), 0.0f, sin(rotation_around_y_axis)).normalized() *
+            mesh_info.mesh->bounding_sphere_radius() * zoom;
+}
+
 int main(int argc, char** argv)
 {
     if (argc < 3)
@@ -97,10 +127,14 @@ int main(int argc, char** argv)
 
     ResetView();
 
+    camera_position =
+            math::Vector3<float>(cos(rotation_around_y_axis), 0.0f, sin(rotation_around_y_axis)).normalized() *
+            mesh_info.mesh->bounding_sphere_radius() * zoom;
+
     glutDisplayFunc(Render);
     glutReshapeFunc(ResizeHandler);
-    //glutKeyboardFunc(KeypressHandler);
-    //glutSpecialFunc(SpecialKeyHandler);
+    glutKeyboardFunc(KeypressHandler);
+    glutSpecialFunc(SpecialKeyHandler);
 
     glutMainLoop();
 

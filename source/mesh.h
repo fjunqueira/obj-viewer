@@ -26,6 +26,14 @@ public:
 
     void Draw(const std::map<std::string, Material>& materials, const std::map<std::string, GLuint>& textures);
 
+    const std::vector<math::Vector3<float>>& vertices() const;
+
+    const std::vector<math::Vector3<float>>& normals() const;
+
+    const std::vector<math::Vector3<float>>& texture_mappings() const;
+
+    const std::map<std::string, Group>& groups() const;
+
     const float& bounding_sphere_radius() const;
 
     const std::string& material_lib() const;

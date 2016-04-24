@@ -9,26 +9,26 @@ Face::Face(const std::string& material,
            const std::vector<int>& face_normals,
            const std::vector<int>& face_mappings) :
                                                 material_(material),
-                                                face_vertices_(face_vertices),
-                                                face_normals_(face_normals),
-                                                face_mappings_(face_mappings)
+                                                vertices_indexes_(face_vertices),
+                                                normals_indexes_(face_normals),
+                                                mappings_indexes_(face_mappings)
 {
 
 }
 
-const std::vector<int>& Face::face_vertices() const
+const std::vector<int>& Face::vertices_indexes() const
 {
-    return this->face_vertices_;
+    return this->vertices_indexes_;
 }
 
-const std::vector<int>& Face::face_normals() const
+const std::vector<int>& Face::normals_indexes() const
 {
-    return this->face_normals_;
+    return this->normals_indexes_;
 }
 
-const std::vector<int>& Face::face_mappings() const
+const std::vector<int>& Face::mappings_indexes() const
 {
-    return this->face_mappings_;
+    return this->mappings_indexes_;
 }
 
 const std::string& Face::material() const

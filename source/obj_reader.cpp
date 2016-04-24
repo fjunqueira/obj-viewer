@@ -125,17 +125,17 @@ Face ObjReader::ReadFace(std::ifstream& file, const std::string& material) const
         auto vertex = match.str(1);
 
         if (!vertex.empty())
-            face_vertices.push_back(atoi(vertex.c_str()));
+            face_vertices.push_back(atoi(vertex.c_str()) - 1);
 
         auto mapping = match.str(2);
 
         if (!mapping.empty())
-            face_mappings.push_back(atoi(mapping.c_str()));
+            face_mappings.push_back(atoi(mapping.c_str()) - 1);
 
         auto normal = match.str(3);
 
         if (!normal.empty())
-            face_normals.push_back(atoi(normal.c_str()));
+            face_normals.push_back(atoi(normal.c_str()) - 1);
     }
 
     return Face(material, face_vertices, face_normals, face_mappings);

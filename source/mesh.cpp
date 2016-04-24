@@ -10,8 +10,11 @@ Mesh::Mesh(const float& bounding_sphere_radius,
            const std::vector<math::Vector3<float>>& normals,
            const std::vector<math::Vector3<float>>& texture_mappings,
            const std::map<std::string, Group>& groups)
-        : bounding_sphere_radius_(bounding_sphere_radius), material_lib_(material_lib), vertices_(vertices),
-          normals_(normals), texture_mappings_(texture_mappings),
+        : bounding_sphere_radius_(bounding_sphere_radius),
+          material_lib_(material_lib),
+          vertices_(vertices),
+          normals_(normals),
+          texture_mappings_(texture_mappings),
           groups_(groups)
 {
 
@@ -53,9 +56,9 @@ void Mesh::Draw(const std::map<std::string, Material>& materials, const std::map
                                   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, group_material.shininess());
                               }
 
-                              auto normals = face.face_normals();
-                              auto vertices = face.face_vertices();
-                              auto mappings = face.face_mappings();
+                              auto normals = face.normals_indexes();
+                              auto vertices = face.vertices_indexes();
+                              auto mappings = face.mappings_indexes();
 
                               for (int i = 0; i < vertices.size(); ++i)
                               {
@@ -75,10 +78,6 @@ void Mesh::Draw(const std::map<std::string, Material>& materials, const std::map
                   });
 }
 
-Mesh::~Mesh()
-{
-}
-
 const float& Mesh::bounding_sphere_radius() const
 {
     return this->bounding_sphere_radius_;
@@ -87,4 +86,28 @@ const float& Mesh::bounding_sphere_radius() const
 const std::string& Mesh::material_lib() const
 {
     return this->material_lib_;
+}
+
+const std::map<std::string, Group>& Mesh::groups() const
+{
+    return this->groups_;
+}
+
+const std::vector<math::Vector3<float>>& Mesh::texture_mappings() const
+{
+    return this->texture_mappings_;
+}
+
+const std::vector<math::Vector3<float>>& Mesh::normals() const
+{
+    return this->normals_;
+}
+
+const std::vector<math::Vector3<float>>& Mesh::vertices() const
+{
+    return this->vertices_;
+}
+
+Mesh::~Mesh()
+{
 }

@@ -24,3 +24,9 @@ const std::vector<Face>& Group::faces() const
 {
     return this->faces_;
 }
+
+const std::string& Group::name() const
+{
+    return this->name_;
+}
+
