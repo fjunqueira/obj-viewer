@@ -1,2 +1,0 @@
-/usr/bin/ar qc /home/fabio/workspace/obj-viewer/libs/lodepng/lib/liblodepng.a  CMakeFiles/lodepng.dir/lodepng.cpp.o CMakeFiles/lodepng.dir/lodepng_util.cpp.o
-/usr/bin/ranlib /home/fabio/workspace/obj-viewer/libs/lodepng/lib/liblodepng.a

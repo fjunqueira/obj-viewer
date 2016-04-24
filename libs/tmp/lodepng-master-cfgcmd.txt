@@ -1,1 +1,0 @@
-cmd='/opt/clion-2016.1.1/bin/cmake/bin/cmake;-GUnix Makefiles;/home/fabio/workspace/obj-viewer/libs/lodepng'

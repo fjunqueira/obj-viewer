@@ -1,3 +1,0 @@
-/home/fabio/workspace/obj-viewer/libs/src/lodepng-master-build/CMakeFiles/edit_cache.dir
-/home/fabio/workspace/obj-viewer/libs/src/lodepng-master-build/CMakeFiles/rebuild_cache.dir
-/home/fabio/workspace/obj-viewer/libs/src/lodepng-master-build/CMakeFiles/lodepng.dir
