@@ -24,8 +24,6 @@ public:
          const std::vector<math::Vector3<float>>& texture_mappings,
          const std::map<std::string, Group>& groups);
 
-    void Draw(const std::map<std::string, Material>& materials, const std::map<std::string, GLuint>& textures);
-
     const std::vector<math::Vector3<float>>& vertices() const;
 
     const std::vector<math::Vector3<float>>& normals() const;
