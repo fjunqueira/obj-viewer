@@ -1,7 +1,5 @@
 #include <iostream>
 #include "obj_reader.h"
-#include "mtl_reader.h"
-#include "texture_reader.h"
 #include "mesh_loader.h"
 #include "mesh_drawer.h"
 #include <GL/freeglut.h>
@@ -22,18 +20,19 @@ void Render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glLoadIdentity();
-    float l = 200;
-    float o = 200;
-    float u = 0;
-    float g_lightPos[4] = {u, o, l, 0};
-    //setar info da luz
-    glLightfv(GL_LIGHT0, GL_POSITION, g_lightPos);
-
-    glLoadIdentity();
 
     gluLookAt(camera_position.x(), camera_position.y(), camera_position.z(), 0, 0, 0, 0.0, 1.0, 0.0);
 
     MeshDrawer::Draw(mesh_info.mesh, mesh_info.materials, mesh_info.textures);
+
+    float light_position[4] = {camera_position.x() / 2, camera_position.y() / 2, camera_position.z() / 2, 0};
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+    glPushMatrix();
+    glTranslatef(camera_position.x() / 2, camera_position.y() / 2, camera_position.z() / 2);
+    glutSolidSphere(mesh_info.mesh->bounding_sphere_radius() / 30, 15, 15);
+    glPopMatrix();
 
     glutSwapBuffers();
     glutPostRedisplay();
@@ -93,6 +92,12 @@ void SpecialKeyHandler(int key, int x, int y)
 {
     switch (key)
     {
+        case GLUT_KEY_PAGE_UP:
+            zoom += 0.1;
+            break;
+        case GLUT_KEY_PAGE_DOWN:
+            zoom -= 0.1;
+            break;
         case GLUT_KEY_LEFT:
             rotation_around_y_axis -= 0.1;
             break;

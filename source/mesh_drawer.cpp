@@ -8,13 +8,11 @@ void ::MeshDrawer::Draw(Mesh* mesh,
                         std::map<std::string, Material>* materials,
                         std::map<std::string, GLuint>* textures)
 {
-    std::map<std::string, Group> group = mesh->groups();
-
     auto vertices = mesh->vertices();
     auto normals = mesh->normals();
     auto texture_mappings = mesh->texture_mappings();
 
-    std::for_each(group.begin(), group.end(), [&](std::pair<const std::string, Group>& group)
+    std::for_each(mesh->groups().begin(), mesh->groups().end(), [&](const std::pair<std::string, Group>& group)
     {
         std::for_each(group.second.faces().begin(), group.second.faces().end(), [&](const Face& face)
         {
@@ -41,10 +39,8 @@ void ::MeshDrawer::Draw(Mesh* mesh,
             auto normals_indexes = face.normals_indexes();
             auto vertices_indexes = face.vertices_indexes();
 
-            //testar se tem normais, texturas
             for (int i = 0; i < face.vertices_indexes().size(); ++i)
             {
-
                 if (mappings_indexes.size() > 0)
                 {
                     auto mapping_data = texture_mappings.at(mappings_indexes.at(i));
