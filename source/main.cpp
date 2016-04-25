@@ -12,8 +12,17 @@ MeshInfo mesh_info;
 
 math::Vector3<float> camera_position;
 float rotation_around_y_axis = 0;
-float camera_heigt = 0;
+float camera_height = 0;
 float zoom = 2;
+
+/*
+ * TODO List:
+ * Light controls
+ * struct for camera controls
+ * Select faces for hiding
+ * Enable glBlend
+ * Restrain camera height
+ * */
 
 void Render()
 {
@@ -105,15 +114,15 @@ void SpecialKeyHandler(int key, int x, int y)
             rotation_around_y_axis += 0.1;
             break;
         case GLUT_KEY_UP:
-            camera_heigt += 0.1;
+            camera_height += 0.1;
             break;
         case GLUT_KEY_DOWN:
-            camera_heigt -= 0.1;
+            camera_height -= 0.1;
             break;
     }
 
     camera_position =
-            math::Vector3<float>(cos(rotation_around_y_axis), camera_heigt, sin(rotation_around_y_axis)).normalized() *
+            math::Vector3<float>(cos(rotation_around_y_axis), camera_height, sin(rotation_around_y_axis)).normalized() *
             mesh_info.mesh->bounding_sphere_radius() * zoom;
 }
 
