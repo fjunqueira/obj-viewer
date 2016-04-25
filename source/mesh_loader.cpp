@@ -4,7 +4,7 @@
 
 #include "mesh_loader.h"
 
-MeshInfo MeshLoader::LoadMesh(const std::string& mesh_path, const std::string& mesh_name)
+MeshInfo MeshLoader::LoadMesh(const std::string& mesh_path, const std::string& mesh_name) const
 {
     ObjReader obj_reader;
     MtlReader mtl_reader;
@@ -18,14 +18,17 @@ MeshInfo MeshLoader::LoadMesh(const std::string& mesh_path, const std::string& m
     {
         mesh_info.materials = mtl_reader.ReadMaterials(mesh_path + mesh_info.mesh->material_lib());
 
-        mesh_info.textures = texture_reader.ReadTextures(mesh_path, this->GetTexturesToLoad(mesh_path, mesh_info.materials));
+        auto textures_to_load = this->GetTexturesToLoad(mesh_path, mesh_info.materials);
+
+        if (textures_to_load.size() > 0)
+            mesh_info.textures = texture_reader.ReadTextures(mesh_path, textures_to_load);
     }
 
     return mesh_info;
 }
 
 std::vector<std::string> MeshLoader::GetTexturesToLoad(const std::string& mesh_path,
-                                                       std::map<std::string, Material>* materials)
+                                                       std::map<std::string, Material>* materials) const
 {
     std::vector<std::string> textures_to_load;
 

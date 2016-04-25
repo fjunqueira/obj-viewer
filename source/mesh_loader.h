@@ -12,19 +12,19 @@
 
 struct MeshInfo
 {
-    Mesh* mesh;
-    std::map<std::string, Material>* materials;
-    std::map<std::string, GLuint>* textures;
+    Mesh* mesh = nullptr;
+    std::map<std::string, Material>* materials = nullptr;
+    std::map<std::string, GLuint>* textures = nullptr;
 };
 
 class MeshLoader
 {
 public:
-    MeshInfo LoadMesh(const std::string& mesh_path, const std::string& mesh_name);
+    MeshInfo LoadMesh(const std::string& mesh_path, const std::string& mesh_name) const;
 
 private:
     std::vector<std::string> GetTexturesToLoad(const std::string& mesh_path,
-                                               std::map<std::string, Material>* materials);
+                                               std::map<std::string, Material>* materials) const;
 };
 
 

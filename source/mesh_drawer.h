@@ -10,8 +10,6 @@
 
 namespace MeshDrawer
 {
-    void Draw(Mesh* mesh);
-
     void Draw(Mesh* mesh, std::map<std::string, Material>* materials, std::map<std::string, GLuint>* textures);
 };
 
