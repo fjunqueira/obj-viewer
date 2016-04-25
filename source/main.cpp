@@ -22,6 +22,7 @@ float zoom = 2;
  * Select faces for hiding
  * Enable glBlend
  * Restrain camera height
+ * Set default light properties
  * */
 
 void Render()
