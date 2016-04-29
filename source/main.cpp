@@ -14,15 +14,17 @@ math::Vector3<float> camera_position;
 float rotation_around_y_axis = 0;
 float camera_height = 0;
 float zoom = 2;
+float diameter = 0;
 
 /*
  * TODO List:
- * Light controls
- * struct for camera controls
+ * 13.2
+ * Light controls -- x
+ * struct for camera controls -- x
  * Select faces for hiding
- * Enable glBlend
- * Restrain camera height
- * Set default light properties
+ * Enable glBlend -- x
+ * Restrain camera height -- ok
+ * Set default light properties -- ok
  * */
 
 void Render()
@@ -31,7 +33,7 @@ void Render()
 
     glLoadIdentity();
 
-    gluLookAt(camera_position.x(), camera_position.y(), camera_position.z(), 0, 0, 0, 0.0, 1.0, 0.0);
+    gluLookAt(camera_position.x(), camera_position.y(), camera_position.z(), 0, camera_height, 0, 0.0, 1.0, 0.0);
 
     MeshDrawer::Draw(mesh_info.mesh, mesh_info.materials, mesh_info.textures);
 
@@ -39,19 +41,12 @@ void Render()
 
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-    glPushMatrix();
-    glTranslatef(camera_position.x() / 2, camera_position.y() / 2, camera_position.z() / 2);
-    glutSolidSphere(mesh_info.mesh->bounding_sphere_radius() / 30, 15, 15);
-    glPopMatrix();
-
     glutSwapBuffers();
     glutPostRedisplay();
 }
 
 void ResetView()
 {
-    float diameter = mesh_info.mesh->bounding_sphere_radius();
-
     glViewport(0, 0, width, height);
 
     glMatrixMode(GL_PROJECTION);
@@ -74,15 +69,27 @@ void ResizeHandler(int w, int h)
 
 void InitializeOpenGL()
 {
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
     glShadeModel(GL_SMOOTH);
+
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+
     glDisable(GL_COLOR_MATERIAL);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
     //glEnable(GL_BLEND);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_TEXTURE_2D);
+
+    GLfloat light_ambient[] = {0.0, 0.0, 0.0, 1.0};
+    GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0};
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClearDepth(1.0);
@@ -115,16 +122,16 @@ void SpecialKeyHandler(int key, int x, int y)
             rotation_around_y_axis += 0.1;
             break;
         case GLUT_KEY_UP:
-            camera_height += 0.1;
+            camera_height += diameter / 10;
             break;
         case GLUT_KEY_DOWN:
-            camera_height -= 0.1;
+            camera_height -= diameter / 10;
             break;
     }
 
     camera_position =
-            math::Vector3<float>(cos(rotation_around_y_axis), camera_height, sin(rotation_around_y_axis)).normalized() *
-            mesh_info.mesh->bounding_sphere_radius() * zoom;
+            math::Vector3<float>(cos(rotation_around_y_axis), 0, sin(rotation_around_y_axis)) *
+            diameter * zoom + math::Vector3<float>(0, camera_height, 0);
 }
 
 int main(int argc, char** argv)
@@ -147,11 +154,13 @@ int main(int argc, char** argv)
     MeshLoader mesh_loader;
     mesh_info = mesh_loader.LoadMesh(mesh_path, mesh_name);
 
+    diameter = mesh_info.mesh->bounding_sphere_radius();
+
     ResetView();
 
     camera_position =
             math::Vector3<float>(cos(rotation_around_y_axis), 0.0f, sin(rotation_around_y_axis)).normalized() *
-            mesh_info.mesh->bounding_sphere_radius() * zoom;
+            diameter * zoom;
 
     glutDisplayFunc(Render);
     glutReshapeFunc(ResizeHandler);
