@@ -53,3 +53,30 @@ const std::vector<math::Vector3<float>>& Mesh::vertices() const
 Mesh::~Mesh()
 {
 }
+
+void Mesh::DisableGroup(const int& group_index)
+{
+    std::for_each(this->groups_.begin(), this->groups_.end(),
+                  [&](const std::pair<std::string, Group>& group)
+                  {
+                      auto group_data = group.second;
+                      if (group_data.group_id() == group_index)
+                      {
+                          this->disabled_groups_.push_back(group_data.name());
+                          this->groups_.at(group_data.name()).disable();
+                      }
+                  });
+}
+
+void Mesh::renable_last_group()
+{
+    if (this->disabled_groups_.size() > 0)
+    {
+        auto group_name = this->disabled_groups_.back();
+        this->groups_.at(group_name).enable();
+        this->disabled_groups_.pop_back();
+    }
+}
+
+
+

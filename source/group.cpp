@@ -4,13 +4,13 @@
 
 #include "group.h"
 
-Group::Group(const std::string& name, const std::vector<Face>& faces) : name_(name),
-                                                                        faces_(faces)
+Group::Group(const GLuint& group_id, const std::string& name, const std::vector<Face>& faces) :
+        group_id_(group_id), faces_(faces), name_(name), is_enabled_(true)
 {
 
 }
 
-Group::Group(const std::string& name) : name_(name)
+Group::Group(const GLuint& group_id, const std::string& name) : group_id_(group_id), name_(name), is_enabled_(true)
 {
 
 }
@@ -29,4 +29,28 @@ const std::string& Group::name() const
 {
     return this->name_;
 }
+
+const GLuint& Group::group_id() const
+{
+    return this->group_id_;
+}
+
+void Group::disable()
+{
+    this->is_enabled_ = false;
+}
+
+void Group::enable()
+{
+    this->is_enabled_ = true;
+}
+
+const bool& Group::is_enabled() const
+{
+    return this->is_enabled_;
+}
+
+
+
+
 

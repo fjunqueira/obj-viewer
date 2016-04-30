@@ -38,6 +38,10 @@ public:
 
     virtual ~Mesh();
 
+    void DisableGroup(const int& group_index);
+
+    void renable_last_group();
+
 private:
     float bounding_sphere_radius_;
     std::string material_lib_;
@@ -45,6 +49,7 @@ private:
     std::vector<math::Vector3<float>> normals_;
     std::vector<math::Vector3<float>> texture_mappings_;
     std::map<std::string, Group> groups_;
+    std::vector<std::string> disabled_groups_;
 };
 
 

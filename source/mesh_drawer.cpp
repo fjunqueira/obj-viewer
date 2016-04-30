@@ -14,7 +14,14 @@ void ::MeshDrawer::Draw(Mesh* mesh,
 
     std::for_each(mesh->groups().begin(), mesh->groups().end(), [&](const std::pair<std::string, Group>& group)
     {
-        std::for_each(group.second.faces().begin(), group.second.faces().end(), [&](const Face& face)
+        auto group_info = group.second;
+
+        if (!group_info.is_enabled())
+            return;
+
+        glLoadName(group_info.group_id());
+
+        std::for_each(group_info.faces().begin(), group_info.faces().end(), [&](const Face& face)
         {
             if (materials != nullptr && materials->count(face.material()))
             {
