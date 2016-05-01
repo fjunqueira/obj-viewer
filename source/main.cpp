@@ -137,8 +137,8 @@ void processHits(GLint hits, GLuint buffer[])
 {
     int idxx = 0;
 
-    float z1= FLT_MAX;
-    float z2 = FLT_MAX;
+    float z = FLT_MAX;
+
     unsigned int i;
     GLuint names, * ptr;
 
@@ -163,10 +163,9 @@ void processHits(GLint hits, GLuint buffer[])
 
         int idx = *ptr;
 
-        if (z2_t <= z2)
+        if (z1_t <= z || z2_t <= z)
         {
-            z1 = z1_t;
-            z2 = z2_t;
+            z = z1_t < z2_t ? z1_t : z2_t;
             idxx = idx;
         }
 
