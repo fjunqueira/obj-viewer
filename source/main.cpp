@@ -184,7 +184,7 @@ void processHits(GLint hits, GLuint buffer[])
     mesh_info.mesh->DisableGroup(idxx);
 }
 
-#define BUFSIZE 512
+#define BUFSIZE 1024
 
 void pickRects(int button, int state, int x, int y)
 {
