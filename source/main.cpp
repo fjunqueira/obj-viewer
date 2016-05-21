@@ -4,6 +4,7 @@
 #include "mesh_drawer.h"
 #include <GL/freeglut.h>
 #include <float.h>
+#include "picker.h"
 
 using namespace std;
 
@@ -16,17 +17,6 @@ float rotation_around_y_axis = 0;
 float camera_height = 0;
 float zoom = 2;
 float diameter = 0;
-
-/*
- * TODO List:
- * 13.2
- * Light controls -- x
- * struct for camera controls -- x
- * Select faces for hiding
- * Enable glBlend -- x
- * Restrain camera height -- ok
- * Set default light properties -- ok
- * */
 
 void Render()
 {
@@ -132,93 +122,21 @@ void SpecialKeyHandler(int key, int x, int y)
             diameter * zoom + math::Vector3<float>(0, camera_height, 0);
 }
 
-///////////////////////////////////////////////////////////////
-void processHits(GLint hits, GLuint buffer[])
+void PickFace(int button, int state, int x, int y)
 {
-    int idxx = 0;
-
-    float z = FLT_MAX;
-
-    unsigned int i;
-    GLuint names, * ptr;
-
-    printf("hits = %d\n", hits);
-    ptr = (GLuint*) buffer;
-
-    for (i = 0; i < hits; i++)
-    {  /* for each hit  */
-        names = *ptr;
-        printf(" number of names for hit = %d\n", names);
-
-        ptr++;
-        float z1_t = (float) *ptr / 0x7fffffff;
-        printf("  z1 is %g;", z1_t);
-
-        ptr++;
-        float z2_t = (float) *ptr / 0x7fffffff;
-        printf(" z2 is %g\n", z2_t);
-
-        ptr++;
-        printf("   the name is ");
-
-        int idx = *ptr;
-
-        if (z1_t <= z || z2_t <= z)
-        {
-            z = z1_t < z2_t ? z1_t : z2_t;
-            idxx = idx;
-        }
-
-        std::for_each(mesh_info.mesh->groups().begin(), mesh_info.mesh->groups().end(),
-                      [&](const std::pair<std::string, Group>& group)
-                      {
-                          if (group.second.group_id() == idx)
-                          {
-                              printf("%s ", group.second.name().c_str());
-                              ptr++;
-                              printf("\n");
-                          }
-                      });
-    }
-
-    mesh_info.mesh->DisableGroup(idxx);
-}
-
-#define BUFSIZE 1024
-
-void pickRects(int button, int state, int x, int y)
-{
-    GLuint selectBuf[BUFSIZE];
-    GLint hits;
-    GLint viewport[4];
-
     if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN)
         return;
-    glGetIntegerv(GL_VIEWPORT, viewport);
 
-    glSelectBuffer(BUFSIZE, selectBuf);
-    (void) glRenderMode(GL_SELECT);
+    auto group_id = Picker::Pick(x,y,[&] () {
+        gluPerspective(60.0, (double) width / (double) height, 1.0, (1.0 + diameter) * 3);
+        MeshDrawer::Draw(mesh_info.mesh, mesh_info.materials, mesh_info.textures);
+    } );
 
-    glInitNames();
-    glPushName(0);
-
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-/*  create 5x5 pixel picking region near cursor location */
-    gluPickMatrix((GLdouble) x, (GLdouble) (viewport[3] - y), 5.0, 5.0, viewport);
-    gluPerspective(60.0, (double) width / (double) height, 1.0, (1.0 + diameter) * 3);
-    MeshDrawer::Draw(mesh_info.mesh, mesh_info.materials, mesh_info.textures);
-    glPopMatrix();
-    glFlush();
-
-    hits = glRenderMode(GL_RENDER);
-    processHits(hits, selectBuf);
+    mesh_info.mesh->DisableGroup(group_id);
 
     ResetView();
 }
 
-///////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
     if (argc < 3)
@@ -251,7 +169,7 @@ int main(int argc, char** argv)
     glutReshapeFunc(ResizeHandler);
     glutKeyboardFunc(KeypressHandler);
     glutSpecialFunc(SpecialKeyHandler);
-    glutMouseFunc(pickRects);
+    glutMouseFunc(PickFace);
 
     glutMainLoop();
 
