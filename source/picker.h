@@ -1,6 +1,6 @@
 
-#ifndef OBJREADER_PICKER_H
-#define OBJREADER_PICKER_H
+#ifndef OBJ_VIEWER_PICKER_H
+#define OBJ_VIEWER_PICKER_H
 
 #include <GL/gl.h>
 #include <functional>
@@ -15,4 +15,4 @@ class Picker
         static int ProcessHits(GLint hits, GLuint buffer[]);
 };
 
-#endif //OBJREADER_PICKER_H
+#endif //OBJ_VIEWER_PICKER_H

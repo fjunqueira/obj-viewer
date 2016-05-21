@@ -2,8 +2,8 @@
 // Created by fabio on 3/15/16.
 //
 
-#ifndef OBJREADER_FACE_H
-#define OBJREADER_FACE_H
+#ifndef OBJ_VIEWER_FACE_H
+#define OBJ_VIEWER_FACE_H
 
 #include <vector>
 #include "vector3.h"
@@ -31,4 +31,4 @@ private:
     std::vector<int> mappings_indexes_;
 };
 
-#endif //OBJREADER_FACE_H
+#endif //OBJ_VIEWER_FACE_H

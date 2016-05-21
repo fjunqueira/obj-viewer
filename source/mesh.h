@@ -2,8 +2,8 @@
 // Created by fabio on 3/15/16.
 //
 
-#ifndef OBJREADER_MESH_H
-#define OBJREADER_MESH_H
+#ifndef OBJ_VIEWER_MESH_H
+#define OBJ_VIEWER_MESH_H
 
 
 #include <map>
@@ -53,4 +53,4 @@ private:
 };
 
 
-#endif //OBJREADER_MESH_H
+#endif //OBJ_VIEWER_MESH_H

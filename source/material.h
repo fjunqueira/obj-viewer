@@ -2,8 +2,8 @@
 // Created by fabio on 3/15/16.
 //
 
-#ifndef OBJREADER_MATERIAL_H
-#define OBJREADER_MATERIAL_H
+#ifndef OBJ_VIEWER_MATERIAL_H
+#define OBJ_VIEWER_MATERIAL_H
 
 
 #include "vector3.h"
@@ -42,4 +42,4 @@ private:
 };
 
 
-#endif //OBJREADER_MATERIAL_H
+#endif //OBJ_VIEWER_MATERIAL_H

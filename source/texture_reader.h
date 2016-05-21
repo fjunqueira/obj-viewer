@@ -2,8 +2,8 @@
 // Created by fabio on 4/23/16.
 //
 
-#ifndef OBJ_READER_TEXTURE_READER_H
-#define OBJ_READER_TEXTURE_READER_H
+#ifndef OBJ_VIEWER_TEXTURE_READER_H
+#define OBJ_VIEWER_TEXTURE_READER_H
 
 
 #include <GL/gl.h>
@@ -20,4 +20,4 @@ public:
 };
 
 
-#endif //OBJ_READER_TEXTURE_READER_H
+#endif //OBJ_VIEWER_TEXTURE_READER_H

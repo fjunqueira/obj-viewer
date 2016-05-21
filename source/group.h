@@ -2,8 +2,8 @@
 // Created by fabio on 3/15/16.
 //
 
-#ifndef OBJREADER_GROUP_H
-#define OBJREADER_GROUP_H
+#ifndef OBJ_VIEWER_GROUP_H
+#define OBJ_VIEWER_GROUP_H
 
 
 #include <GL/gl.h>
@@ -39,4 +39,4 @@ private:
 };
 
 
-#endif //OBJREADER_GROUP_H
+#endif //OBJ_VIEWER_GROUP_H

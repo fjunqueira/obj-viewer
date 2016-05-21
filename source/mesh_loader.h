@@ -2,8 +2,8 @@
 // Created by fabio on 4/23/16.
 //
 
-#ifndef OBJ_READER_MESH_LOADER_H
-#define OBJ_READER_MESH_LOADER_H
+#ifndef OBJ_VIEWER_MESH_LOADER_H
+#define OBJ_VIEWER_MESH_LOADER_H
 
 #include "mesh.h"
 #include "obj_reader.h"
@@ -28,4 +28,4 @@ private:
 };
 
 
-#endif //OBJ_READER_MESH_LOADER_H
+#endif //OBJ_VIEWER_MESH_LOADER_H

@@ -2,8 +2,8 @@
 // Created by fabio on 4/10/16.
 //
 
-#ifndef OBJ_READER_MTL_READER_H
-#define OBJ_READER_MTL_READER_H
+#ifndef OBJ_VIEWER_MTL_READER_H
+#define OBJ_VIEWER_MTL_READER_H
 
 #include <map>
 #include <string>
@@ -21,4 +21,4 @@ private:
 };
 
 
-#endif //OBJ_READER_MTL_READER_H
+#endif //OBJ_VIEWER_MTL_READER_H

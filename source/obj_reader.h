@@ -2,8 +2,8 @@
 // Created by fabio on 3/15/16.
 //
 
-#ifndef OBJREADER_OBJ_READER_H
-#define OBJREADER_OBJ_READER_H
+#ifndef OBJ_VIEWER_OBJ_VIEWER_H
+#define OBJ_VIEWER_OBJ_VIEWER_H
 
 
 #include "mesh.h"
@@ -31,4 +31,4 @@ private:
 };
 
 
-#endif //OBJREADER_OBJ_READER_H
+#endif //OBJ_VIEWER_OBJ_VIEWER_H

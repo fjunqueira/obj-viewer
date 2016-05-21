@@ -2,8 +2,8 @@
 // Created by fabio on 3/13/16.
 //
 
-#ifndef SYNTHETIC_CAM_SAMPLE_VECTOR3_H
-#define SYNTHETIC_CAM_SAMPLE_VECTOR3_H
+#ifndef OBJ_VIEWER_VECTOR3_H
+#define OBJ_VIEWER_VECTOR3_H
 
 #include <math.h>
 #include <iostream>
@@ -39,4 +39,4 @@ namespace math
     };
 }
 
-#endif //SYNTHETIC_CAM_SAMPLE_VECTOR3_H
+#endif //OBJ_VIEWER_VECTOR3_H
