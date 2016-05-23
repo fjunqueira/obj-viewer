@@ -4,15 +4,11 @@
 
 #include "group.h"
 
-Group::Group(const GLuint& group_id, const std::string& name, const std::vector<Face>& faces) :
-        group_id_(group_id), faces_(faces), name_(name), is_enabled_(true)
+Group::Group(const std::string& name) :  name_(name), is_enabled_(true)
 {
+    static GLuint group_id = 1;
 
-}
-
-Group::Group(const GLuint& group_id, const std::string& name) : group_id_(group_id), name_(name), is_enabled_(true)
-{
-
+    this->group_id_ = group_id++;
 }
 
 void Group::add_face(const Face& face)

@@ -13,9 +13,7 @@
 class Group
 {
 public:
-    Group(const GLuint& group_id, const std::string& name);
-
-    Group(const GLuint& group_id, const std::string& name, const std::vector<Face>& faces);
+    Group(const std::string& name);
 
     const std::string& name() const;
 

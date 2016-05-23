@@ -14,9 +14,23 @@ MeshInfo mesh_info;
 
 math::Vector3<float> camera_position;
 float rotation_around_y_axis = 0;
-float camera_height = 0;
+float rotation_around_z_axis = 0;
 float zoom = 2;
 float diameter = 0;
+
+void Draw()
+{
+    glPushMatrix();
+
+    glTranslatef(0, 0, 0);
+
+    glRotatef(rotation_around_z_axis, 0.0, 0.0, 1.0);
+    glRotatef(rotation_around_y_axis, 0.0, 1.0, 0.0);
+
+    MeshDrawer::Draw(mesh_info.mesh, mesh_info.materials, mesh_info.textures);
+
+    glPopMatrix();
+}
 
 void Render()
 {
@@ -24,9 +38,9 @@ void Render()
 
     glLoadIdentity();
 
-    gluLookAt(camera_position.x(), camera_position.y(), camera_position.z(), 0, camera_height, 0, 0.0, 1.0, 0.0);
+    gluLookAt(camera_position.x(), camera_position.y(), camera_position.z(), 0, 0, 0, 0.0, 1.0, 0.0);
 
-    MeshDrawer::Draw(mesh_info.mesh, mesh_info.materials, mesh_info.textures);
+    Draw();
 
     float light_position[4] = {camera_position.x() / 2, camera_position.y() / 2, camera_position.z() / 2, 0};
 
@@ -93,44 +107,52 @@ void KeypressHandler(unsigned char key, int x, int y)
     }
 }
 
+void UpdateCamera()
+{
+    camera_position = math::Vector3<float>(1, 0.0f, 0.0f).normalized() * diameter * zoom;
+}
+
 void SpecialKeyHandler(int key, int x, int y)
 {
     switch (key)
     {
-        case GLUT_KEY_PAGE_UP:
-            zoom += 0.1;
-            break;
-        case GLUT_KEY_PAGE_DOWN:
-            zoom -= 0.1;
-            break;
         case GLUT_KEY_LEFT:
-            rotation_around_y_axis -= 0.1;
+            rotation_around_y_axis -= 2;
             break;
         case GLUT_KEY_RIGHT:
-            rotation_around_y_axis += 0.1;
+            rotation_around_y_axis += 2;
             break;
         case GLUT_KEY_UP:
-            camera_height += diameter / 10;
+            rotation_around_z_axis -= 2;
             break;
         case GLUT_KEY_DOWN:
-            camera_height -= diameter / 10;
+            rotation_around_z_axis += 2;
             break;
     }
 
-    camera_position =
-            math::Vector3<float>(cos(rotation_around_y_axis), 0, sin(rotation_around_y_axis)) *
-            diameter * zoom + math::Vector3<float>(0, camera_height, 0);
+    UpdateCamera();
 }
 
-void PickFace(int button, int state, int x, int y)
+void MouseHandler(int button, int state, int x, int y)
 {
+    if (button == 3 || button == 4)
+    {
+        zoom += button == 3 ? -0.1 : 0.1;
+        UpdateCamera();
+        return;
+    }
+
     if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN)
         return;
 
-    auto group_id = Picker::Pick(x,y,[&] () {
-        gluPerspective(60.0, (double) width / (double) height, 1.0, (1.0 + diameter) * 3);
-        MeshDrawer::Draw(mesh_info.mesh, mesh_info.materials, mesh_info.textures);
-    } );
+    auto group_id = Picker::Pick(x, y,
+                                 [&]()
+                                 {
+                                     gluPerspective(60.0, (double) width / (double) height, 1.0, (1.0 + diameter) * 3);
+                                     glMatrixMode(GL_MODELVIEW);
+                                     Draw();
+                                     glMatrixMode(GL_PROJECTION);
+                                 });
 
     mesh_info.mesh->DisableGroup(group_id);
 
@@ -169,7 +191,7 @@ int main(int argc, char** argv)
     glutReshapeFunc(ResizeHandler);
     glutKeyboardFunc(KeypressHandler);
     glutSpecialFunc(SpecialKeyHandler);
-    glutMouseFunc(PickFace);
+    glutMouseFunc(MouseHandler);
 
     glutMainLoop();
 

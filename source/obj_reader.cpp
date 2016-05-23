@@ -6,8 +6,6 @@
 
 Mesh* ObjReader::ReadMesh(const std::string& file_path) const
 {
-    GLuint group_id = 1;
-
     std::ifstream file(file_path, std::ios::in);
 
     std::string material_lib;
@@ -22,7 +20,7 @@ Mesh* ObjReader::ReadMesh(const std::string& file_path) const
 
     std::string current_group("default");
     std::map<std::string, Group> groups;
-    groups.insert(std::pair<std::string, Group>("default", Group(group_id++, "default")));
+    groups.insert(std::pair<std::string, Group>("default", Group("default")));
 
     if (file.is_open())
     {
@@ -58,7 +56,7 @@ Mesh* ObjReader::ReadMesh(const std::string& file_path) const
                 file >> current_group;
 
                 if (groups.count(current_group) == 0)
-                    groups.insert(std::pair<std::string, Group>(current_group, Group(group_id++, current_group)));
+                    groups.insert(std::pair<std::string, Group>(current_group, Group( current_group)));
             }
             else if (prefix.compare("usemtl") == 0)
                 file >> current_material;
